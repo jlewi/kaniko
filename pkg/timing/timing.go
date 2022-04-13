@@ -39,15 +39,17 @@ type TimedRun struct {
 
 // Stop stops the specified timer and increments the time spent in that category.
 func (tr *TimedRun) Stop(t *Timer) {
-	fmt.Printf("Stop called")
-	stop := currentTimeFunc()
-	tr.cl.Lock()
-	defer tr.cl.Unlock()
-	fmt.Printf("Stop acquired lock")
-	if _, ok := tr.categories[t.category]; !ok {
-		tr.categories[t.category] = 0
-	}
-	tr.categories[t.category] += stop.Sub(t.startTime)
+	fmt.Printf("Stop called - but code is commented out\n")
+	//fmt.Printf("Stop called\n")
+	//debug.PrintStack()
+	//stop := currentTimeFunc()
+	//tr.cl.Lock()
+	//defer tr.cl.Unlock()
+	//fmt.Printf("Stop acquired lock\n")
+	//if _, ok := tr.categories[t.category]; !ok {
+	//	tr.categories[t.category] = 0
+	//}
+	//tr.categories[t.category] += stop.Sub(t.startTime)
 }
 
 // Start starts a new Timer and returns it.
@@ -87,7 +89,7 @@ func JSON() (string, error) {
 
 // Summary outputs a summary of the specified TimedRun.
 func (tr *TimedRun) Summary() string {
-	fmt.Printf("Summary calledt")
+	fmt.Printf("Summary called")
 	b := bytes.Buffer{}
 
 	tr.cl.Lock()

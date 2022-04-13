@@ -324,7 +324,7 @@ func (s *stageBuilder) build() error {
 	}
 
 	if shouldUnpack {
-		t := timing.Start("FS Unpacking")
+		//		t := timing.Start("FS Unpacking")
 
 		retryFunc := func() error {
 			_, err := util.GetFSFromImage(config.RootDir, s.image, util.ExtractFile)
@@ -335,7 +335,7 @@ func (s *stageBuilder) build() error {
 			return errors.Wrap(err, "failed to get filesystem from image")
 		}
 
-		timing.DefaultRun.Stop(t)
+		// timing.DefaultRun.Stop(t)
 	} else {
 		logrus.Info("Skipping unpacking as no commands require it.")
 	}
@@ -354,7 +354,7 @@ func (s *stageBuilder) build() error {
 			continue
 		}
 
-		t := timing.Start("Command: " + command.String())
+		//		t := timing.Start("Command: " + command.String())
 
 		// If the command uses files from the context, add them.
 		files, err := command.FilesUsedFromContext(&s.cf.Config, s.args)
@@ -392,7 +392,7 @@ func (s *stageBuilder) build() error {
 			return errors.Wrap(err, "failed to execute command")
 		}
 		files = command.FilesToSnapshot()
-		timing.DefaultRun.Stop(t)
+		//timing.DefaultRun.Stop(t)
 
 		if !s.shouldTakeSnapshot(index, command.MetadataOnly()) && !s.opts.ForceBuildMetadata {
 			logrus.Debugf("build: skipping snapshot for [%v]", command.String())
@@ -443,7 +443,7 @@ func (s *stageBuilder) takeSnapshot(files []string, shdDelete bool) (string, err
 	var snapshot string
 	var err error
 
-	t := timing.Start("Snapshotting FS")
+	//	t := timing.Start("Snapshotting FS")
 	if files == nil || s.opts.SingleSnapshot {
 		snapshot, err = s.snapshotter.TakeSnapshotFS()
 	} else {
@@ -451,7 +451,7 @@ func (s *stageBuilder) takeSnapshot(files []string, shdDelete bool) (string, err
 		files = append(files, util.Volumes()...)
 		snapshot, err = s.snapshotter.TakeSnapshot(files, shdDelete, s.opts.ForceBuildMetadata)
 	}
-	timing.DefaultRun.Stop(t)
+	//timing.DefaultRun.Stop(t)
 	return snapshot, err
 }
 
@@ -589,7 +589,7 @@ func CalculateDependencies(stages []config.KanikoStage, opts *config.KanikoOptio
 
 // DoBuild executes building the Dockerfile
 func DoBuild(opts *config.KanikoOptions) (v1.Image, error) {
-	t := timing.Start("Total Build Time")
+	//	t := timing.Start("Total Build Time")
 	digestToCacheKey := make(map[string]string)
 	stageIdxToDigest := make(map[string]string)
 
@@ -683,7 +683,7 @@ func DoBuild(opts *config.KanikoOptions) (v1.Image, error) {
 					return nil, err
 				}
 			}
-			timing.DefaultRun.Stop(t)
+			//timing.DefaultRun.Stop(t)
 			return sourceImage, nil
 		}
 		if stage.SaveStage {
@@ -756,8 +756,8 @@ func filesToSave(deps []string) ([]string, error) {
 }
 
 func fetchExtraStages(stages []config.KanikoStage, opts *config.KanikoOptions) error {
-	t := timing.Start("Fetching Extra Stages")
-	defer timing.DefaultRun.Stop(t)
+	//	t := timing.Start("Fetching Extra Stages")
+	//defer timing.DefaultRun.Stop(t)
 
 	var names []string
 
