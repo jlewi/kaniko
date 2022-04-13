@@ -30,7 +30,6 @@ import (
 	"github.com/GoogleContainerTools/kaniko/pkg/config"
 	"github.com/GoogleContainerTools/kaniko/pkg/constants"
 	"github.com/GoogleContainerTools/kaniko/pkg/creds"
-	"github.com/GoogleContainerTools/kaniko/pkg/timing"
 	"github.com/GoogleContainerTools/kaniko/pkg/util"
 	"github.com/GoogleContainerTools/kaniko/pkg/version"
 	"github.com/google/go-containerregistry/pkg/name"
@@ -133,7 +132,7 @@ func writeDigestFile(path string, digestByteArray []byte) error {
 
 // DoPush is responsible for pushing image to the destinations specified in opts
 func DoPush(image v1.Image, opts *config.KanikoOptions) error {
-	t := timing.Start("Total Push Time")
+	// t := timing.Start("Total Push Time")
 	var digestByteArray []byte
 	var builder strings.Builder
 	if opts.DigestFile != "" || opts.ImageNameDigestFile != "" || opts.ImageNameTagDigestFile != "" {
@@ -250,8 +249,10 @@ func DoPush(image v1.Image, opts *config.KanikoOptions) error {
 		if err := util.Retry(retryFunc, opts.PushRetry, 1000); err != nil {
 			return errors.Wrap(err, fmt.Sprintf("failed to push to destination %s", destRef))
 		}
+		logrus.Infof("retry loop finished")
 	}
-	timing.DefaultRun.Stop(t)
+	logrus.Infof("Exited destRefs loop")
+	// timing.DefaultRun.Stop(t)
 	return writeImageOutputs(image, destRefs)
 }
 
