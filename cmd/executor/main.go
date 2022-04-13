@@ -17,18 +17,19 @@ limitations under the License.
 package main
 
 import (
+	"fmt"
 	"os"
 
 	"github.com/GoogleContainerTools/kaniko/cmd/executor/cmd"
-
-	"github.com/google/slowjam/pkg/stacklog"
+	//"github.com/google/slowjam/pkg/stacklog"
 )
 
 func main() {
-	s := stacklog.MustStartFromEnv("STACKLOG_PATH")
-	defer s.Stop()
+	// s := stacklog.MustStartFromEnv("STACKLOG_PATH")
+	//defer s.Stop()
 
 	if err := cmd.RootCmd.Execute(); err != nil {
+		fmt.Printf("calling os.exit")
 		os.Exit(1)
 	}
 }

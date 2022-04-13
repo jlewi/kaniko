@@ -39,7 +39,7 @@ type TimedRun struct {
 
 // Stop stops the specified timer and increments the time spent in that category.
 func (tr *TimedRun) Stop(t *Timer) {
-	fmt.Printf("Stop called - but code is commented out\n")
+	//fmt.Printf("Stop called - but code is commented out\n")
 	//fmt.Printf("Stop called\n")
 	//debug.PrintStack()
 	//stop := currentTimeFunc()
