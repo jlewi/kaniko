@@ -257,6 +257,7 @@ func DoPush(image v1.Image, opts *config.KanikoOptions) error {
 }
 
 func writeImageOutputs(image v1.Image, destRefs []name.Tag) error {
+	fmt.Printf("writeImage invoked\n")
 	dir := os.Getenv("BUILDER_OUTPUT")
 	if dir == "" {
 		return nil
@@ -277,6 +278,7 @@ func writeImageOutputs(image v1.Image, destRefs []name.Tag) error {
 		Digest string `json:"digest"`
 	}
 	for _, r := range destRefs {
+		fmt.Printf("writeImageOutputs destref %v\n", r)
 		if err := json.NewEncoder(f).Encode(imageOutput{
 			Name:   r.String(),
 			Digest: d.String(),
@@ -284,6 +286,7 @@ func writeImageOutputs(image v1.Image, destRefs []name.Tag) error {
 			return err
 		}
 	}
+	fmt.Printf("writeImageOutputs finished\n")
 	return nil
 }
 

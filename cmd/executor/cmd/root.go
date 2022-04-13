@@ -139,12 +139,15 @@ var RootCmd = &cobra.Command{
 		if err != nil {
 			exit(errors.Wrap(err, "error building image"))
 		}
+		fmt.Printf("DoPush being invoked\n")
 		if err := executor.DoPush(image, opts); err != nil {
 			exit(errors.Wrap(err, "error pushing image"))
 		}
+		fmt.Printf("DoPush returned\n")
 		benchmarkFile := os.Getenv("BENCHMARK_FILE")
 		// false is a keyword for integration tests to turn off benchmarking
 		if benchmarkFile != "" && benchmarkFile != "false" {
+			fmt.Printf("Inside benchmark if\n")
 			s, err := timing.JSON()
 			if err != nil {
 				logrus.Warnf("Unable to write benchmark file: %s", err)
@@ -167,6 +170,7 @@ var RootCmd = &cobra.Command{
 				logrus.Infof("benchmark file written at %s", benchmarkFile)
 			}
 		}
+		fmt.Printf("end of Run function\n")
 	},
 }
 
