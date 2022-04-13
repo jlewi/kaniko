@@ -32,4 +32,5 @@ func main() {
 		fmt.Printf("calling os.exit")
 		os.Exit(1)
 	}
+	fmt.Printf("main is exiting")
 }
